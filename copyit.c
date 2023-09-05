@@ -26,7 +26,7 @@ int main(int argc, char **argv){
         exit(1);
     }
 
-    //opening the two files and handling errors
+    //opening the two files + error handling
     readFile = open(argv[1],O_RDONLY);
     if(readFile < 0){
         printf(openingErr, argv[0], argv[1], strerror(errno));
@@ -41,7 +41,8 @@ int main(int argc, char **argv){
     }
     printf("Write file opened %d\n",writeFile);
 
-    //read-write loop
+    //read-write loop and set total bytes read to 0 + error handling
+    totalBytes = 0;
     do{
         if(bytesRead = read(readFile,buffer,1000) < 0){
             printf("%s: error reading from %s, %s\n", argv[0], argv[1],strerror(errno));
@@ -54,9 +55,10 @@ int main(int argc, char **argv){
             exit(1);
         }
         printf("Write\n");
+        totalBytes += bytesRead;
     }while(bytesRead > 0);
 
-
+    //close the read and write files + error handling
     if(close(readFile) < 0){
         printf("copyit: couldn't close file: %s\n", strerror);
         exit(1);
