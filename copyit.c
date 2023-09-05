@@ -10,8 +10,9 @@ int main(int argc, char **argv){
 
     int errnum;
     int readFile, writeFile, bytesRead, totalBytes;
-    char *buffer = malloc(1000 * sizeof(char));
-
+    //char *buffer = malloc(1000 * sizeof(char));
+    char buffer[1000];
+        
     static char usage[] = "usage: %s <SourceFile> <TargetFile>\n";
     static char openingErr[] = "%s: couldn't open %s: %s\n";
 
@@ -58,7 +59,7 @@ int main(int argc, char **argv){
         totalBytes += bytesRead;
     }while(bytesRead > 0);
 
-    printf("Bytes read: %d", bytesRead);
+    printf("Bytes read: %d\n", bytesRead);
 
     //close the read and write files + error handling
     if(close(readFile) < 0){
