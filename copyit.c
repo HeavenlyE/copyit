@@ -49,7 +49,7 @@ int main(int argc, char **argv){
         }
         printf("Read\n");
 
-        if(write(0, buffer,bytesRead) < 0){
+        if(write(writeFile, buffer,bytesRead) < 0){
             printf("%s: error writing to %s, %s\n", argv[0], argv[2],strerror(errno));
             exit(1);
         }
