@@ -58,6 +58,8 @@ int main(int argc, char **argv){
         totalBytes += bytesRead;
     }while(bytesRead > 0);
 
+    printf("Bytes read: %d", bytesRead);
+
     //close the read and write files + error handling
     if(close(readFile) < 0){
         printf("copyit: couldn't close file: %s\n", strerror);
