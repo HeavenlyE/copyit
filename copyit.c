@@ -41,6 +41,7 @@ int main(int argc, char **argv){
     }
     printf("Write file opened %d\n",writeFile);
 
+    //read-write loop
     do{
         if(bytesRead = read(readFile,buffer,1000) < 0){
             printf("%s: error reading from %s, %s\n", argv[0], argv[1],strerror(errno));
