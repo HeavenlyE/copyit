@@ -9,10 +9,12 @@
 int main(int argc, char **argv){
 
     int errnum;
-    int readFile, writeFile, bytesRead, totalBytes;
-    //char *buffer = malloc(1000 * sizeof(char));
-    char buffer[1000];
-        
+    int readFile, writeFile, bytesRead;
+    char *buffer = malloc(1000 * sizeof(char));
+    //char buffer[1000];
+    size_t nbytes = sizeof(buffer);
+    ssize_t totalBytes;
+
     static char usage[] = "usage: %s <SourceFile> <TargetFile>\n";
     static char openingErr[] = "%s: couldn't open %s: %s\n";
 
@@ -45,7 +47,7 @@ int main(int argc, char **argv){
     //read-write loop and set total bytes read to 0 + error handling
     totalBytes = 0;
     do{
-        if(bytesRead = read(readFile,buffer,1000) < 0){
+        if(bytesRead = read(readFile,buffer,nbytes) < 0){
             printf("%s: error reading from %s, %s\n", argv[0], argv[1],strerror(errno));
             exit(1);
         }
