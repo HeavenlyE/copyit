@@ -1,13 +1,20 @@
 #include<stdio.h>
 #include<stdlib.h>
-#include<sys/stat.h>
+//#include<sys/stat.h>
 #include<fcntl.h>
 #include<errno.h>
 #include<unistd.h>
 #include<string.h>
+#include<signal.h>
+
+void handler(int signum){
+    printf("copyit: is still copying...\n");
+    alarm(1);
+}
 
 int main(int argc, char **argv){
     
+    signal(SIGALRM,handler);
     alarm(1);
     int errnum;
     int readFile, writeFile, bytesRead, totalBytes;
@@ -34,7 +41,7 @@ int main(int argc, char **argv){
         exit(1);
     }
 
-    writeFile = open(argv[2], O_WRONLY);
+    writeFile = open(argv[2], O_WRONLY | O_CREAT);
     if(writeFile < 0){
         printf(openingErr, argv[0], argv[2], strerror(errno));
         exit(1);
@@ -57,8 +64,6 @@ int main(int argc, char **argv){
         totalBytes += bytesRead;
     }while(bytesRead > 0);
 
-    printf("Bytes read: %d\n", totalBytes);
-
     //close the read and write files + error handling
     if(close(readFile) < 0){
         printf("copyit: couldn't close file: %s\n", strerror);
@@ -68,6 +73,8 @@ int main(int argc, char **argv){
         printf("copyit: couldn't close file: %s\n", strerror);
         exit(1);
     }
+
+    printf("Bytes read: %d\n", totalBytes);
 
 
 }
