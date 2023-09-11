@@ -7,11 +7,11 @@
 #include<string.h>
 
 int main(int argc, char **argv){
-
+    
+    alarm(1);
     int errnum;
     int readFile, writeFile, bytesRead, totalBytes;
     char* buffer = (char*) malloc(1000 * sizeof(char));
-    //char buffer[1000];
 
     static char usage[] = "usage: %s <SourceFile> <TargetFile>\n";
     static char openingErr[] = "%s: couldn't open %s: %s\n";
@@ -33,14 +33,12 @@ int main(int argc, char **argv){
         printf(openingErr, argv[0], argv[1], strerror(errno));
         exit(1);
     }
-    //printf("Read file opened %d\n", readFile);
 
     writeFile = open(argv[2], O_WRONLY);
     if(writeFile < 0){
         printf(openingErr, argv[0], argv[2], strerror(errno));
         exit(1);
     }
-    //printf("Write file opened %d\n",writeFile);
 
     //read-write loop and set total bytes read to 0 + error handling
     totalBytes = 0;
@@ -51,13 +49,11 @@ int main(int argc, char **argv){
             exit(1);
         }
         buffer[bytesRead] = '\0';
-        //printf("%d\n", bytesRead);
 
         if(write(writeFile, buffer, bytesRead) < 0){
             printf("%s: error writing to %s, %s\n", argv[0], argv[2],strerror(errno));
             exit(1);
         }
-        //printf("Write\n");
         totalBytes += bytesRead;
     }while(bytesRead > 0);
 
@@ -67,14 +63,10 @@ int main(int argc, char **argv){
     if(close(readFile) < 0){
         printf("copyit: couldn't close file: %s\n", strerror);
         exit(1);
-    }else{
-        //printf("File %s closed successfully\n", argv[1]);
     }
     if(close(writeFile) < 0){
         printf("copyit: couldn't close file: %s\n", strerror);
         exit(1);
-    }else{
-        //printf("File %s closed successfully\n", argv[2]);
     }
 
 
