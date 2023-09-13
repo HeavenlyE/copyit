@@ -40,7 +40,9 @@ int main(int argc, char **argv){
         exit(1);
     }
 
-    writeFile = open(argv[2], O_WRONLY | O_CREAT);
+    //If the file does not exist if it is created then 0666 will give everyone permission to read and write.
+    //0666 is the same as using "S_IRWXO | S_IRWXU | S_IRWXG"
+    writeFile = open(argv[2], O_CREAT | O_RDWR, 0666);
     if(writeFile < 0){
         printf(openingErr, argv[0], argv[2], strerror(errno));
         exit(1);
